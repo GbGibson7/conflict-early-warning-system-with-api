@@ -1,0 +1,83 @@
+{
+  "version": "2020.2",
+  "datasources": [
+    {
+      "name": "Conflict_Data",
+      "connection": {
+        "type": "postgres",
+        "server": "localhost",
+        "database": "conflict_db",
+        "schema": "public"
+      },
+      "tables": [
+        {
+          "name": "tweet_analysis",
+          "columns": [
+            {"name": "date", "type": "date"},
+            {"name": "region", "type": "string"},
+            {"name": "sentiment_score", "type": "float"},
+            {"name": "conflict_intensity", "type": "float"},
+            {"name": "risk_level", "type": "string"},
+            {"name": "latitude", "type": "float"},
+            {"name": "longitude", "type": "float"}
+          ]
+        }
+      ]
+    }
+  ],
+  "worksheets": [
+    {
+      "name": "Risk Heatmap",
+      "viz": {
+        "type": "heatmap",
+        "x": "date",
+        "y": "region",
+        "color": "risk_level",
+        "size": "conflict_intensity"
+      }
+    },
+    {
+      "name": "Geographical View",
+      "viz": {
+        "type": "map",
+        "latitude": "latitude",
+        "longitude": "longitude",
+        "size": "conflict_intensity",
+        "color": "risk_level",
+        "detail": "region"
+      }
+    },
+    {
+      "name": "Sentiment Timeline",
+      "viz": {
+        "type": "line",
+        "x": "date",
+        "y": "sentiment_score",
+        "color": "region"
+      }
+    }
+  ],
+  "dashboards": [
+    {
+      "name": "Conflict Early Warning Dashboard",
+      "layout": "grid",
+      "components": [
+        {
+          "type": "worksheet",
+          "worksheet": "Risk Heatmap",
+          "position": {"x": 0, "y": 0, "width": 8, "height": 6}
+        },
+        {
+          "type": "worksheet",
+          "worksheet": "Geographical View",
+          "position": {"x": 8, "y": 0, "width": 8, "height": 6}
+        },
+        {
+          "type": "worksheet",
+          "worksheet": "Sentiment Timeline",
+          "position": {"x": 0, "y": 6, "width": 16, "height": 4}
+        }
+      ]
+    }
+  ]
+}
